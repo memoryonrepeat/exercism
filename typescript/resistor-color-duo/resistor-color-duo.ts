@@ -1,12 +1,30 @@
-export class ResistorColor {
-  private colors: string[];
-  private order = ["black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "grey", "white"]
+const COLOR_TO_RESISTANT_MAPPING = {
+	"black": 0,
+	"brown": 1,
+	"red": 2,
+	"orange": 3,
+	"yellow": 4,
+	"green": 5,
+	"blue": 6,
+	"violet": 7,
+	"grey": 8,
+	"white": 9
+}
+type Color = keyof typeof COLOR_TO_RESISTANT_MAPPING
 
-  constructor(colors: string[]) {
-    if (colors.length < 2){
+export class ResistorColor {  
+  private colors: [Color, Color];
+
+  constructor(colors: [Color, Color]) {
+    /*if (colors.length < 2){
       throw "At least two colors need to be present"
-    }
-    this.colors = colors.slice(0,2)
+    }*/
+    this.colors = colors
   }
-  value = (): number => parseInt(this.colors.reduce((acc, current) => (acc + this.order.indexOf(current)), ''))
+
+  value = (): number => {
+    const [firstColor, secondColor] = this.colors
+
+    return 10*COLOR_TO_RESISTANT_MAPPING[firstColor] + COLOR_TO_RESISTANT_MAPPING[secondColor];
+  }
 }
